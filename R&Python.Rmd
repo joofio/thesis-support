@@ -1,0 +1,66 @@
+---
+title: "Synthetic Data"
+author: "João Almeida"
+date: "30/09/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Synthpop
+
+```{r}
+data<-read.csv("data/dataR2 (2).csv")
+head(data)
+```
+
+```{r}
+suppressPackageStartupMessages(library(synthpop))
+synth.obj <- syn(data,  seed = 1024)
+mycols <- c("darkmagenta", "turquoise")
+compare1<-compare(synth.obj, data, nrow = 3, ncol = 4, cols =mycols)
+compare1$plot
+```
+
+### CTGAN - testing Rstudio
+
+```{python}
+import pandas as pd
+import numpy as np
+import seaborn as sns
+from ctgan import load_demo
+from ctgan import CTGANSynthesizer
+import matplotlib.pyplot as plt
+import torch
+
+print(pd.__version__)
+print(np.__version__)
+print(sns.__version__)
+```
+
+Demo data from CTANSynthesizer module
+
+```{python}
+#data = load_demo()
+#data.info
+#discrete_columns = [
+    'workclass',
+    'education',
+    'marital-status',
+    'occupation',
+    'relationship',
+    'race',
+    'sex',
+    'native-country',
+    'income'
+]
+ctgan = CTGANSynthesizer()
+ctgan.fit(data, discrete_columns, epochs=5)
+samples = ctgan.sample(32561)
+samples.head(5)
+```
+
+```{}
+```
